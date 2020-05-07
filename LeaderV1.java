@@ -85,7 +85,7 @@ final class LeaderV1 extends PlayerImpl {
 	throws RemoteException
 	{
 		m_platformStub.log(m_type, "Generating Price. ");
-		double price = (double) (p_mean + m_randomizer.nextGaussian() * p_diversity);
+		double price = regressionModel.maxLinear();
 		double predictedPrice;
 
 		try {

@@ -46,4 +46,8 @@ public class LinearRegressionStandard implements Regression {
 
         return prediction;
     }
+
+    public double maxLinear() {
+        return (0.3 * a - 0.3 * b - 3) / (0.6 * a - 2);
+    }
 }
