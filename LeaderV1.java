@@ -26,13 +26,13 @@ final class LeaderV1 extends PlayerImpl {
 	}
 
 	// Calculates the profit of the leader given leader's and follower's prices
-	private profit_leader(double pl, double pf)
+	private double profit_leader(double pl, double pf)
 	{
 		return demand(pl, pf) * (pl - 1);
 	}
 
 	// Calculates the demand given leader's and follower's prices
-	private demand(double pl, double pf) 
+	private double demand(double pl, double pf) 
 	{
 		return 2 - pl + 0.3 * pf;
 	}
