@@ -11,14 +11,8 @@ import comp34120.ex2.Record;
 
 
 
-public class LinearRegressionModel
-{
-	public LinearRegressionModel(double a, double b)
-	{
-		this.a = a;
-		this.b = b;
-	}
-}
+
+
 final class LeaderV1 extends PlayerImpl {
 	/* The randomizer used to generate random price */
 	private final Random m_randomizer = new Random(System.currentTimeMillis());
@@ -29,6 +23,16 @@ final class LeaderV1 extends PlayerImpl {
 		throws RemoteException, NotBoundException
 	{
 		super(PlayerType.LEADER, "Leader v1");
+	}
+
+	private class LinearRegressionModel	{	
+		public double a, b;
+
+		public LinearRegressionModel(double a, double b)
+		{
+			this.a = a;
+			this.b = b;
+		}
 	}
 
 	@Override
@@ -115,24 +119,24 @@ final class LeaderV1 extends PlayerImpl {
 
 		sumOfFollower = 0.0;
 		sumOfLeader = 0.0;
-		crossSum = 0.0
+		crossSum = 0.0;
 		squaredSumOfLeader = 0.0;
 		for(int i = 0; i < records.size(); i++){
 			sumOfFollower += records.get(i).m_followerPrice;
 			squaredSumOfLeader = Math.pow(records.get(i).m_leaderPrice, 2);
 			sumOfLeader += records.get(i).m_leaderPrice;
-			corssSum += records.get(i).m_followerPrice * ecords.get(i).m_leaderPrice;
+			crossSum += records.get(i).m_followerPrice * records.get(i).m_leaderPrice;
 		}
 
 		double a_sum = squaredSumOfLeader * sumOfFollower -
 						 			 sumOfLeader * crossSum;
 		double numerator = records.size() * squaredSumOfLeader - Math.pow(sumOfLeader, 2);
-		double b_sum = record.size() * crossSum - sumOfLeader * sumOfFollower
+		double b_sum = records.size() * crossSum - sumOfLeader * sumOfFollower;
 
 		double a = a_sum/numerator;
 		double b = b_sum/numerator;
 
-		retrun new LinearRegressionModel(a,b);
+		return new LinearRegressionModel(a,b);
 
 	}
 	@Override
