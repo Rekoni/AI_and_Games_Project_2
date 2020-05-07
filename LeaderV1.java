@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
+import java.util.ArrayList;
 
 final class LeaderV1 extends PlayerImpl {
 	/* The randomizer used to generate random price */
@@ -35,6 +35,14 @@ final class LeaderV1 extends PlayerImpl {
 		throws RemoteException
 	{
 		m_platformStub.log(m_type, "A New Day!");
+
+		int day;
+		Record currentRecord = null;
+
+		for (day = lastDay + 1; day < p_date; day++) {
+			currentRecord = m_platformStub.query(m_type, day);
+			recrods.add(currentRecord);
+		}
 
 		try {
 			m_platformStub.publishPrice(m_type, genPrice(1.8f, 0.05f));
@@ -68,6 +76,9 @@ final class LeaderV1 extends PlayerImpl {
     public void startSimulation(int steps) throws RemoteException {
 
         m_platformStub.log(m_type, "Simulation started.");
+
+		records = new ArrayList<Record>();
+		lastDay = 0;
 
     }
 
