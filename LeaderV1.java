@@ -91,7 +91,7 @@ final class LeaderV1 extends PlayerImpl {
 	@Override
     public void startSimulation(int steps) throws RemoteException {
 
-        m_platformStub.log(m_type, "Simulation started.");
+        m_platformStub.log(m_type, "Using model " + this.getClass().getSimpleName());
 
 		records = new ArrayList<Record>();
 		lastDay = 0;
@@ -101,7 +101,7 @@ final class LeaderV1 extends PlayerImpl {
 	@Override
     public void endSimulation() throws RemoteException {
 
-        m_platformStub.log(m_type, "Simulation ended.");
+        m_platformStub.log(m_type, records.size() + " records before the last day.");
 
     }
 
