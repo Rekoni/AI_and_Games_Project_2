@@ -9,11 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 import comp34120.ex2.Record;
 
+
+
+public class LinearRegressionModel
+{
+	public LinearRegressionModel(double a, double b)
+	{
+		this.a = a;
+		this.b = b;
+	}
+}
 final class LeaderV1 extends PlayerImpl {
 	/* The randomizer used to generate random price */
 	private final Random m_randomizer = new Random(System.currentTimeMillis());
 	private int lastDay;
-    private List<Record> records;
+  private List<Record> records;
 
 	private LeaderV1()
 		throws RemoteException, NotBoundException
@@ -36,7 +46,7 @@ final class LeaderV1 extends PlayerImpl {
 	}
 
 	// Calculates the demand given leader's and follower's prices
-	private double demand(double pl, double pf) 
+	private double demand(double pl, double pf)
 	{
 		return 2 - pl + 0.3 * pf;
 	}
@@ -98,6 +108,33 @@ final class LeaderV1 extends PlayerImpl {
 
     }
 
+
+	private LinearRegressionModel calculateLinearRegression()
+	{
+		double sumOfLeader, sumOfFollower, squaredSumOfLeader, crossSum;
+
+		sumOfFollower = 0.0;
+		sumOfLeader = 0.0;
+		crossSum = 0.0
+		squaredSumOfLeader = 0.0;
+		for(int i = 0; i < records.size(); i++){
+			sumOfFollower += records.get(i).m_followerPrice;
+			squaredSumOfLeader = Math.pow(records.get(i).m_leaderPrice, 2);
+			sumOfLeader += records.get(i).m_leaderPrice;
+			corssSum += records.get(i).m_followerPrice * ecords.get(i).m_leaderPrice;
+		}
+
+		double a_sum = squaredSumOfLeader * sumOfFollower -
+						 			 sumOfLeader * crossSum;
+		double numerator = records.size() * squaredSumOfLeader - Math.pow(sumOfLeader, 2);
+		double b_sum = record.size() * crossSum - sumOfLeader * sumOfFollower
+
+		double a = a_sum/numerator;
+		double b = b_sum/numerator;
+
+		retrun new LinearRegressionModel(a,b);
+
+	}
 	@Override
     public void endSimulation() throws RemoteException {
 
@@ -116,7 +153,7 @@ final class LeaderV1 extends PlayerImpl {
 		{
 			(new Timer()).schedule(new ExitTask(), p_delay);
 		}
-		
+
 		@Override
 		public void run()
 		{
