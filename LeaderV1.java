@@ -40,7 +40,7 @@ final class LeaderV1 extends PlayerImpl {
 			m_platformStub.publishPrice(m_type, genPrice(1.8f, 0.05f));
 		}
 		catch (Exception e) {
-			m_platformStub.log(m_type, e);
+			m_platformStub.log(m_type, e.getMessage());
 		}
 	}
 
@@ -52,6 +52,7 @@ final class LeaderV1 extends PlayerImpl {
 	 * @return The generated price
 	 */
 	private float genPrice(final float p_mean, final float p_diversity)
+	throws RemoteException
 	{
 		m_platformStub.log(m_type, "Generating Price.");
 		return (float) (p_mean + m_randomizer.nextGaussian() * p_diversity);
@@ -60,7 +61,7 @@ final class LeaderV1 extends PlayerImpl {
 	public static void main(final String[] p_args)
 		throws RemoteException, NotBoundException
 	{
-		new SimpleLeader();
+		new LeaderV1();
 	}
 
 	/**
@@ -72,7 +73,6 @@ final class LeaderV1 extends PlayerImpl {
 	{
 		static void exit(final long p_delay)
 		{
-			m_platformStub.log(m_type, "End of of the Simulation.");
 			(new Timer()).schedule(new ExitTask(), p_delay);
 		}
 		
