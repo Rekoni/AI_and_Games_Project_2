@@ -52,7 +52,7 @@ public class LinearRegressionPrinceton implements Regression {
         return prediction;
     }
 
-    public double maxLinear() {
+    public double maximize() {
         if (a < 1.0/3.0)
             return (0.3 * a - 0.3 * b - 3) / (0.6 * a - 2);
         else if (a > 1.0/3.0 || b > -2.0/6) 
