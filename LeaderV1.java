@@ -8,31 +8,21 @@ import java.util.TimerTask;
 import java.util.ArrayList;
 import java.util.List;
 import comp34120.ex2.Record;
-
-
-
-
+import models.*;
 
 final class LeaderV1 extends PlayerImpl {
 	/* The randomizer used to generate random price */
 	private final Random m_randomizer = new Random(System.currentTimeMillis());
 	private int lastDay;
-  private List<Record> records;
+    private ArrayList<Record> records;
+	private Regression regressionModel;
 
 	private LeaderV1()
 		throws RemoteException, NotBoundException
 	{
 		super(PlayerType.LEADER, "Leader v1");
-	}
 
-	private class LinearRegressionModel	{	
-		public double a, b;
-
-		public LinearRegressionModel(double a, double b)
-		{
-			this.a = a;
-			this.b = b;
-		}
+		regressionModel = new LinearRegression();
 	}
 
 	@Override
@@ -74,6 +64,8 @@ final class LeaderV1 extends PlayerImpl {
 			records.add(currentRecord);
 		}
 
+		regressionModel.train(records);
+		
 		try {
 			m_platformStub.publishPrice(m_type, genPrice(1.8f, 0.05f));
 		}
@@ -89,11 +81,23 @@ final class LeaderV1 extends PlayerImpl {
 	 * @param p_diversity The diversity of the Gaussian distribution
 	 * @return The generated price
 	 */
-	private float genPrice(final float p_mean, final float p_diversity)
+	private float genPrice(final double p_mean, final double p_diversity)
 	throws RemoteException
 	{
-		m_platformStub.log(m_type, "Generating Price.");
-		return (float) (p_mean + m_randomizer.nextGaussian() * p_diversity);
+		m_platformStub.log(m_type, "Generating Price. ");
+		double price = (double) (p_mean + m_randomizer.nextGaussian() * p_diversity);
+		double predictedPrice;
+
+		try {
+			predictedPrice = regressionModel.predict(price);
+			m_platformStub.log(m_type, "Predicted Follower Price: " + predictedPrice);
+		}
+		catch (Exception e) {
+			m_platformStub.log(m_type, e.getMessage());
+			ExitTask.exit(500);
+		}
+
+		return (float) price;
 	}
 
 	public static void main(final String[] p_args)
@@ -105,40 +109,13 @@ final class LeaderV1 extends PlayerImpl {
 	@Override
     public void startSimulation(int steps) throws RemoteException {
 
-        m_platformStub.log(m_type, "Using model " + this.getClass().getSimpleName());
+        m_platformStub.log(m_type, "Using model " + regressionModel.getClass().getSimpleName());
 
 		records = new ArrayList<Record>();
 		lastDay = 0;
 
     }
 
-
-	private LinearRegressionModel calculateLinearRegression()
-	{
-		double sumOfLeader, sumOfFollower, squaredSumOfLeader, crossSum;
-
-		sumOfFollower = 0.0;
-		sumOfLeader = 0.0;
-		crossSum = 0.0;
-		squaredSumOfLeader = 0.0;
-		for(int i = 0; i < records.size(); i++){
-			sumOfFollower += records.get(i).m_followerPrice;
-			squaredSumOfLeader = Math.pow(records.get(i).m_leaderPrice, 2);
-			sumOfLeader += records.get(i).m_leaderPrice;
-			crossSum += records.get(i).m_followerPrice * records.get(i).m_leaderPrice;
-		}
-
-		double a_sum = squaredSumOfLeader * sumOfFollower -
-						 			 sumOfLeader * crossSum;
-		double numerator = records.size() * squaredSumOfLeader - Math.pow(sumOfLeader, 2);
-		double b_sum = records.size() * crossSum - sumOfLeader * sumOfFollower;
-
-		double a = a_sum/numerator;
-		double b = b_sum/numerator;
-
-		return new LinearRegressionModel(a,b);
-
-	}
 	@Override
     public void endSimulation() throws RemoteException {
 
