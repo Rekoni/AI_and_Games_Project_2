@@ -72,6 +72,8 @@ final class LeaderV1 extends PlayerImpl {
 		catch (Exception e) {
 			m_platformStub.log(m_type, e.getMessage());
 		}
+
+		lastDay = day - 1;
 	}
 
 	/**
@@ -91,6 +93,7 @@ final class LeaderV1 extends PlayerImpl {
 		try {
 			predictedPrice = regressionModel.predict(price);
 			m_platformStub.log(m_type, "Predicted Follower Price: " + predictedPrice);
+			System.out.println(records.size() + " days coefficients: " + regressionModel.getCoefficientsString());
 		}
 		catch (Exception e) {
 			m_platformStub.log(m_type, e.getMessage());
@@ -123,10 +126,6 @@ final class LeaderV1 extends PlayerImpl {
 
     }
 
-	/**
-	 * The task used to automatically exit the leader process
-	 * @author Xin
-	 */
 	private static class ExitTask
 		extends TimerTask
 	{
