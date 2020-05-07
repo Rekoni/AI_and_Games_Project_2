@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import models.Regression;
 import comp34120.ex2.Record;
 
-public class LinearRegression implements Regression {	
+public class LinearRegressionStandard implements Regression {	
     public double a, b;
 
-    public LinearRegression(){}
+    public LinearRegressionStandard(){}
 
     public void train(ArrayList<Record> records)
     {
