@@ -6,10 +6,14 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.ArrayList;
+import java.util.List;
+import comp34120.ex2.Record;
 
 final class LeaderV1 extends PlayerImpl {
 	/* The randomizer used to generate random price */
 	private final Random m_randomizer = new Random(System.currentTimeMillis());
+	private int lastDay;
+    private List<Record> records;
 
 	private LeaderV1()
 		throws RemoteException, NotBoundException
@@ -53,7 +57,7 @@ final class LeaderV1 extends PlayerImpl {
 
 		for (day = lastDay + 1; day < p_date; day++) {
 			currentRecord = m_platformStub.query(m_type, day);
-			recrods.add(currentRecord);
+			records.add(currentRecord);
 		}
 
 		try {
