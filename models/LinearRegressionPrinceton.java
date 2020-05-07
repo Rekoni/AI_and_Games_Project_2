@@ -55,13 +55,9 @@ public class LinearRegressionPrinceton implements Regression {
     public double maxLinear() {
         return (0.3 * a - 0.3 * b - 3) / (0.6 * a - 2);
     }
-<<<<<<< HEAD
 
     public String getCoefficientsString()
     {
         return "a = " + a + "; b = " + b;
     }
 }
-=======
-}
->>>>>>> d006d1bda98f9b09df21980fd6c68316e3ac4ee5
