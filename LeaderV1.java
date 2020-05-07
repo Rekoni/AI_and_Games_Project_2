@@ -76,6 +76,20 @@ final class LeaderV1 extends PlayerImpl {
 		new LeaderV1();
 	}
 
+	@Override
+    public void startSimulation(int steps) throws RemoteException {
+
+        m_platformStub.log(m_type, "Simulation started.");
+
+    }
+
+	@Override
+    public void endSimulation() throws RemoteException {
+
+        m_platformStub.log(m_type, "Simulation ended.");
+
+    }
+
 	/**
 	 * The task used to automatically exit the leader process
 	 * @author Xin
