@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import models.Regression;
 import comp34120.ex2.Record;
 
-public class LinearRegressionPrinceton implements Regression {	
+public class LinearRegressionPrinceton implements Regression {
     public double a, b;
 
     public LinearRegressionPrinceton(){}
@@ -13,8 +13,8 @@ public class LinearRegressionPrinceton implements Regression {
 	{
         int noOfEntries = records.size();
 
-        // first pass
-        double sumx = 0.0, sumy = 0.0, sumx2 = 0.0;
+
+        double sumx = 0.0, sumy = 0.0;
 
         for (int i = 0; i < noOfEntries; i++)
 		{
@@ -24,13 +24,13 @@ public class LinearRegressionPrinceton implements Regression {
         double xAverage = sumx / noOfEntries;
         double yAverage = sumy / noOfEntries;
 
-        // second pass: compute summary statistics
-        double xSqauredAverage = 0.0;//, yyAverage = 0.0,
-		double xyCrossAveraged = 0.0;
+
+        double xSqauredAverage = 0.0;
+		    double xyCrossAveraged = 0.0;
 
         for (int i = 0; i < noOfEntries; i++) {
-            xSqauredAverage += (records.get(i).m_leaderPrice - xAverage) * (records.get(i).m_leaderPrice - xAverage);
-          //  yyAverage += (records.get(i).m_followerPrice - yAverage) * (records.get(i).m_followerPrice - yAverage);
+            xSqauredAverage += Math.pow(records.get(i).m_leaderPrice - xAverage,2);
+
             xyCrossAveraged += (records.get(i).m_leaderPrice - xAverage) * (records.get(i).m_followerPrice - yAverage);
         }
 
@@ -41,7 +41,7 @@ public class LinearRegressionPrinceton implements Regression {
 
     public double predict(double x) throws Exception {
         double prediction;
-        
+
         try {
             prediction = a * x + b;
         }
@@ -55,9 +55,13 @@ public class LinearRegressionPrinceton implements Regression {
     public double maxLinear() {
         return (0.3 * a - 0.3 * b - 3) / (0.6 * a - 2);
     }
+<<<<<<< HEAD
 
     public String getCoefficientsString()
     {
         return "a = " + a + "; b = " + b;
     }
 }
+=======
+}
+>>>>>>> d006d1bda98f9b09df21980fd6c68316e3ac4ee5

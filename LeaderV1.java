@@ -22,7 +22,8 @@ final class LeaderV1 extends PlayerImpl {
 	{
 		super(PlayerType.LEADER, "Leader v1");
 
-		regressionModel = new LinearRegressionPrinceton();
+		regressionModel = new LinearRegressionPrincetonForget(0.95);
+		//regressionModel = new LinearRegressionPrinceton();
 	}
 
 	@Override
