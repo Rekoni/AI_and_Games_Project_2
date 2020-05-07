@@ -16,13 +16,12 @@ public class LinearRegressionPrincetonForget implements Regression {
 	{
         int noOfEntries = records.size();
 
-        double weight_after_forget;
-
         double sumx = 0.0, sumy = 0.0, sumx2 = 0.0;
 
         for (int i = 0; i < noOfEntries; i++)
 		{
-            weight_after_forget = Math.pow(FORGETTING_FACTOR, index);
+            //double weight_after_forget = Math.pow(forgettingFactor, noOfEntries - i);
+            double weight_after_forget = 1;
             sumx  += records.get(i).m_leaderPrice * weight_after_forget;
             sumy  += records.get(i).m_followerPrice * weight_after_forget;
 		}
@@ -30,15 +29,17 @@ public class LinearRegressionPrincetonForget implements Regression {
         double yAverage = sumy / noOfEntries;
 
 
-      double xSqauredAverage = 0.0;
+        double xSquaredAverage = 0.0;
   		double xyCrossAveraged = 0.0;
 
         for (int i = 0; i < noOfEntries; i++) {
-            xSqauredAverage += Math.pow(records.get(i).m_leaderPrice - xAverage, 2) * weight_after_forget;
+            double weight_after_forget = Math.pow(forgettingFactor, noOfEntries - i);
+            //double weight_after_forget = 1;
+            xSquaredAverage += Math.pow(records.get(i).m_leaderPrice - xAverage, 2) * weight_after_forget;
             xyCrossAveraged += (records.get(i).m_leaderPrice - xAverage) * (records.get(i).m_followerPrice - yAverage) * weight_after_forget;
         }
 
-        a  = xyCrossAveraged / xSqauredAverage;
+        a  = xyCrossAveraged / xSquaredAverage;
         b = yAverage - a * xAverage;
 
 	}
