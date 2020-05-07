@@ -25,7 +25,7 @@ final class LeaderV1 extends PlayerImpl {
 		super(PlayerType.LEADER, "Leader v1");
 	}
 
-	private class LinearRegressionModel	{	
+	private class LinearRegressionModel	{
 		public double a, b;
 
 		public LinearRegressionModel(double a, double b)
@@ -137,6 +137,40 @@ final class LeaderV1 extends PlayerImpl {
 		double b = b_sum/numerator;
 
 		return new LinearRegressionModel(a,b);
+
+	}
+
+	private LinearRegressionModel calculateLinearRegressionPrincenton()
+	{
+		if (x.length != y.length) {
+            throw new IllegalArgumentException("input output not of same length");
+        }
+        noOfEntries = records.size();
+
+        // first pass
+        double sumx = 0.0, sumy = 0.0, sumx2 = 0.0;
+        for (int i = 0; i < N; i++)
+				{
+					sumx  += records.get(i).m_leaderPrice;
+	  			sumy  += records.get(i).m_followerPrice;
+					sumXSquared = Math.pow(records.get(i).m_leaderPrice, 2);
+		   	}
+        double xAverage = sumx / noOfEntries;
+        double yAverage = sumy / noOfEntries;
+
+        // second pass: compute summary statistics
+        double xSqauredAverage = 0.0;//, yyAverage = 0.0,
+				double xyCrossAveraged = 0.0;
+        for (int i = 0; i < noOfEntries; i++) {
+            xSqauredAverage += (records.get(i).m_leaderPrice - xAverage) * (records.get(i).m_leaderPrice - xAverage);
+          //  yyAverage += (records.get(i).m_followerPrice - yAverage) * (records.get(i).m_followerPrice - yAverage);
+            xyCrossAveraged += (records.get(i).m_leaderPrice - xAverage) * (records.get(i).m_followerPrice - yAverage);
+        }
+
+        a  = xyCrossAveraged / xSqauredAverage;
+        b = yAverage - a * xAverage;
+
+				return new LinearRegressionModel(a,b);
 
 	}
 	@Override
