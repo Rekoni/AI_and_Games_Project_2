@@ -25,6 +25,18 @@ final class LeaderV1 extends PlayerImpl {
 		ExitTask.exit(500);
 	}
 
+	// Calculates the profit of the leader given leader's and follower's prices
+	private profit_leader(double pl, double pf)
+	{
+		return demand(pl, pf) * (pl - 1);
+	}
+
+	// Calculates the demand given leader's and follower's prices
+	private demand(double pl, double pf) 
+	{
+		return 2 - pl + 0.3 * pf;
+	}
+
 	/**
 	 * To inform this instance to proceed to a new simulation day
 	 * @param p_date The date of the new day
