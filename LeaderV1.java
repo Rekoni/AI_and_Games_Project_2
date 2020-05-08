@@ -24,7 +24,7 @@ final class LeaderV1 extends PlayerImpl {
 
 		//regressionModel = new LinearRegressionPrincetonForget(0.95);
 		//regressionModel = new LinearRegressionPrinceton();
-		regressionModel = new PolynomialRegression(0.95);
+		regressionModel = new PolynomialRegression(1.0);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ final class LeaderV1 extends PlayerImpl {
 	@Override
     public void startSimulation(int steps) throws RemoteException {
 
-        m_platformStub.log(m_type, "Using model " + regressionModel.getClass().getSimpleName());
+        m_platformStub.log(m_type, "Using model " + " poly");
 
 		records = new ArrayList<Record>();
 		lastDay = 0;

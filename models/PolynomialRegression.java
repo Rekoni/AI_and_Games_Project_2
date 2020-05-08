@@ -21,7 +21,8 @@ public class PolynomialRegression implements Regression {
         SimpleMatrix m1 = new SimpleMatrix(3, 1);
         SimpleMatrix m2 = new SimpleMatrix(3, 3);
 
-        int window_size = Math.min(50, records.size());
+        // Window for limiting the number of records used for training
+        int window_size = records.size();
         List<Record> window = records.subList(records.size() - window_size, records.size());
 
         double[] x = {0.0, 0.0, 0.0, 0.0};
@@ -71,7 +72,7 @@ public class PolynomialRegression implements Regression {
         return prediction;
     }
 
-    public double getProfit(double x) throws Exception {
+    public double getProfit(double x) {
         double profit;
         
         // Profit function coefficients
@@ -99,8 +100,8 @@ public class PolynomialRegression implements Regression {
         double c4 = - 2 - 0.3 * c;
 
         // Calculating roots of the first derivative of the profit function
+        
         double discriminant = c2 * c2 - 3 * c1 * c3;
-
         if (discriminant > 0) {
             double x1 = (-c2 - Math.sqrt(c2 * c2 - 3 * c1 * c3)) / (3 * c1);
             double x2 = (-c2 + Math.sqrt(c2 * c2 - 3 * c1 * c3)) / (3 * c1);
