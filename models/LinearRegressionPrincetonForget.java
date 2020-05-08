@@ -60,8 +60,10 @@ public class LinearRegressionPrincetonForget implements Regression {
     public double maximize() {
         if (a < 1.0/0.3)
             return (0.3 * a - 0.3 * b - 3) / (0.6 * a - 2);
-        else 
+        else if (a > 1.0/0.3 || b > -2.0/0.3) 
             return Integer.MAX_VALUE;
+        else 
+            return 1;
     }
 
     public String getCoefficientsString()
