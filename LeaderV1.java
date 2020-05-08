@@ -22,8 +22,9 @@ final class LeaderV1 extends PlayerImpl {
 	{
 		super(PlayerType.LEADER, "Leader v1");
 
-		regressionModel = new LinearRegressionPrincetonForget(0.95);
+		//regressionModel = new LinearRegressionPrincetonForget(0.95);
 		//regressionModel = new LinearRegressionPrinceton();
+		regressionModel = new PolynomialRegression(0.95);
 	}
 
 	@Override
@@ -32,18 +33,6 @@ final class LeaderV1 extends PlayerImpl {
 	{
 		m_platformStub.log(m_type, "Goodbye!");
 		ExitTask.exit(500);
-	}
-
-	// Calculates the profit of the leader given leader's and follower's prices
-	private double profit_leader(double pl, double pf)
-	{
-		return demand(pl, pf) * (pl - 1);
-	}
-
-	// Calculates the demand given leader's and follower's prices
-	private double demand(double pl, double pf)
-	{
-		return 2 - pl + 0.3 * pf;
 	}
 
 	/**
@@ -57,34 +46,25 @@ final class LeaderV1 extends PlayerImpl {
 	{
 		m_platformStub.log(m_type, "A New Day!");
 
-		int day;
-		Record currentRecord = null;
-
-		for (day = lastDay + 1; day < p_date; day++) {
-			currentRecord = m_platformStub.query(m_type, day);
-			records.add(currentRecord);
+		for (lastDay = lastDay + 1; lastDay < p_date; lastDay++) {
+			records.add(m_platformStub.query(m_type, lastDay));
 		}
+		lastDay--;
 
 		regressionModel.train(records);
-		
 		try {
-			m_platformStub.publishPrice(m_type, genPrice(1.8f, 0.05f));
+			m_platformStub.publishPrice(m_type, genPrice());
 		}
 		catch (Exception e) {
 			m_platformStub.log(m_type, e.getMessage());
 		}
-
-		lastDay = day - 1;
 	}
 
 	/**
-	 * Generate a random price based Gaussian distribution. The mean is p_mean,
-	 * and the diversity is p_diversity
-	 * @param p_mean The mean of the Gaussian distribution
-	 * @param p_diversity The diversity of the Gaussian distribution
+	 * Generate a price based on a given regression model
 	 * @return The generated price
 	 */
-	private float genPrice(final double p_mean, final double p_diversity)
+	private float genPrice()
 	throws RemoteException
 	{
 		m_platformStub.log(m_type, "Generating Price. ");
