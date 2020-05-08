@@ -88,7 +88,7 @@ final class LeaderV1 extends PlayerImpl {
 	throws RemoteException
 	{
 		m_platformStub.log(m_type, "Generating Price. ");
-		double price = regressionModel.maxLinear();
+		double price = regressionModel.maximize();
 		double predictedPrice;
 
 		try {
