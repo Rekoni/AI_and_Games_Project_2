@@ -53,12 +53,10 @@ public class LinearRegressionPrinceton implements Regression {
     }
 
     public double maximize() {
-        if (a < 1.0/3.0)
+        if (a < 1.0/0.3)
             return (0.3 * a - 0.3 * b - 3) / (0.6 * a - 2);
-        else if (a > 1.0/3.0 || b > -2.0/6) 
-            return Integer.MAX_VALUE;
         else 
-            return 1;
+            return Integer.MAX_VALUE;
     }
 
     public String getCoefficientsString()
