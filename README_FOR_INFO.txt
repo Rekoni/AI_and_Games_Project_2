@@ -48,5 +48,8 @@ have a bigger weight as they are substantial.
 This model did not seem to produce significant improvements
 
 
-B. Polynomial Model:
+B. Quadratic Polynomial Regression:
 
+This approach produces a vanderdome matrix which is then inputted into a QR decomposition algorithm; The QR decomp. algorithm's output will be the coefficients of the Profit(Leader)-Profit(Follower), using which we can find the maximum point of the profit curve.
+
+As additional features, this model includes a sliding window and a forgetting factor, both of which can be configured through the constructor.

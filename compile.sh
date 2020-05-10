@@ -1,1 +1,1 @@
-javac -cp ".:ejml-v0.39-libs/*" LeaderV1.java
+javac -cp ".:Jama-1.0.3.jar"  LeaderV1.java
