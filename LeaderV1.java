@@ -24,7 +24,7 @@ final class LeaderV1 extends PlayerImpl {
 
 		//regressionModel = new LinearRegressionPrincetonForget(0.95);
 		//regressionModel = new LinearRegressionPrinceton();
-		regressionModel = new PolynomialRegression(1.0);
+		regressionModel = new PolynomialRegression(0.95);
 	}
 
 	@Override
